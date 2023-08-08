@@ -12,6 +12,7 @@ using namespace std;
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(500, 500), "Example View");
+    video_context vc (500,500);
     sf::CircleShape circle(150); circle.setPosition(100, 200);
 
     window.setFramerateLimit(60);
@@ -21,7 +22,7 @@ int main() {
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) window.close(); 
             if (event.type == sf::Event::KeyPressed) {
-                if(event.key.code == sf::Keyboard::Enter) get_pixels(500,500);
+                if(event.key.code == sf::Keyboard::Enter) vc.screenshot("screenshot.bmp");
             }
         }
 
