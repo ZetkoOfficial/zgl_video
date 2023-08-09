@@ -1,3 +1,9 @@
 example
 .vscode
-.vscoe/
+.vscode/
+
+logs/
+logs
+
+screenshot.png
+output.mp4
