@@ -3,6 +3,7 @@
 #include <vector>
 #include <cmath>
 #include <algorithm>
+#include <chrono>
 
 #include <SFML/Graphics.hpp>
 #include "gl_video.cpp"
@@ -22,7 +23,13 @@ int main() {
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) window.close(); 
             if (event.type == sf::Event::KeyPressed) {
-                if(event.key.code == sf::Keyboard::Enter) vc.screenshot("screenshot.bmp");
+                if(event.key.code == sf::Keyboard::Enter) {
+                    auto start = chrono::system_clock::now();
+                    vc.screenshot("screenshot.png");
+                    auto end = chrono::system_clock::now();
+
+                    cout << chrono::duration_cast<chrono::milliseconds>(end-start).count() << "ms per screenshot" << endl; 
+                }
             }
         }
 
