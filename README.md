@@ -1,6 +1,6 @@
 # ZetkoOfficial OpenGL screenshot/video recording library (zgl_video)
 This library allows the user to take screenshots and record videos of their OpenGL context's pixel buffer.
-It uses [libpng](http://www.libpng.org/) for creating .png screenshots and [FFMPEG](https://www.ffmpeg.org/) for creating .mp4 videos, which makes these two libraries dependencies for this library.
+It uses [libpng](http://www.libpng.org/pub/png/libpng.html) for creating .png screenshots and [FFMPEG](https://www.ffmpeg.org/) for creating .mp4 videos, which makes these two libraries dependencies for this library.
 
 ## Compiling and example
 When compiling a program with this library included, compile flags `-lGL -lpng -lpthread` are required. An installation of `ffmpeg` is also required and its location can be passed into the `video_context::init_recording` method(the default is `/usr/bin/ffmpeg`).
