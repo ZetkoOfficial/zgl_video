@@ -6,7 +6,10 @@
 #include <png.h>
 
 #include <SFML/OpenGL.hpp>
-#include <boost/process.hpp>
+
+#include <boost/process/child.hpp>
+#include <boost/process/pipe.hpp>
+#include <boost/process/io.hpp>
 
 namespace zgl_video {
 
