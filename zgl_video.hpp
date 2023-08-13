@@ -6,7 +6,10 @@
 #include <png.h>
 
 #include <SFML/OpenGL.hpp>
-#include <boost/process.hpp>
+
+#include <boost/process/child.hpp>
+#include <boost/process/pipe.hpp>
+#include <boost/process/io.hpp>
 
 namespace zgl_video {
 
@@ -104,7 +107,7 @@ struct video_context {
     }
 
     // initializes ffmpeg for recording video
-    void init_recording(std::string filename, std::string ffmpeg_location="/usr/bin/ffmpeg", bool display_output = true) {
+    void init_recording(std::string filename, bool display_output = true, std::string pix_format="yuv420p", std::string ffmpeg_location="/usr/bin/ffmpeg") {
         this->is_recording = true;
         std::string size_str = std::to_string(this->width) + "x" + std::to_string(this->height);
 
@@ -116,6 +119,7 @@ struct video_context {
                 "-pixel_format", "rgb24",
                 "-video_size", size_str,
                 "-i", "-",
+                "-pix_fmt", pix_format,
                 "-c:v", "libx264", filename,
 
                 boost::process::std_in < this->ffmpeg_in
@@ -128,10 +132,12 @@ struct video_context {
                 "-pixel_format", "rgb24",
                 "-video_size", size_str,
                 "-i", "-",
+                "-pix_fmt", pix_format,
                 "-c:v", "libx264", filename,
 
                 boost::process::std_in < this->ffmpeg_in,
-                boost::process::std_out > boost::process::null
+                boost::process::std_out > boost::process::null,
+                boost::process::std_err > boost::process::null
             );
         }
         
@@ -139,6 +145,7 @@ struct video_context {
 
     // stops ffmpeg and finalizes the recording
     void stop_recording() {
+        if(this->is_recording) throw std::runtime_error("Cannot stop stopped recording.");
         this->is_recording = false;
 
         ffmpeg_in.close();
