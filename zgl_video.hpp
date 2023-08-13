@@ -145,7 +145,7 @@ struct video_context {
 
     // stops ffmpeg and finalizes the recording
     void stop_recording() {
-        if(this->is_recording) throw std::runtime_error("Cannot stop stopped recording.");
+        if(!this->is_recording) throw std::runtime_error("Cannot stop stopped recording.");
         this->is_recording = false;
 
         ffmpeg_in.close();
@@ -155,7 +155,7 @@ struct video_context {
 
     // Adds the pixel buffer of the current opengl context as a frame to the rendering video.
     void add_frame() {
-        if(!is_recording) throw std::runtime_error("Recording is not initialized.");
+        if(!this->is_recording) throw std::runtime_error("Recording is not initialized.");
 
         populate_buffer();
         this->ffmpeg_in.write((char*) this->buffer, sizeof(struct pixel) * width * height);
